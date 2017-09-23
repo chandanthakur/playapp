@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Layout for Pre-call (outgoing video, connecting video) -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/call_member_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true">
+    <com.chthakur.playapp.CallRemoteMemberView
+        android:id="@+id/call_member_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.chthakur.playapp.CallRemoteMemberView>
+</FrameLayout>

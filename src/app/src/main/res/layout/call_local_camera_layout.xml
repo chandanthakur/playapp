@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for Pre-call (outgoing video, connecting video) -->
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        android:id="@+id/pip_container"
+        android:background="@color/colorRed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.skype.m2.views.CallPictureInPicture
+            android:id="@+id/picture_in_picture"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <com.skype.m2.calling.frontend.CallingHub.AspectRatioView
+            android:id="@+id/aspect_ratio_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_aspectRatio="0.75">
+        </com.skype.m2.calling.frontend.CallingHub.AspectRatioView>
+    </FrameLayout>
+</layout>
+
+

@@ -1,4 +1,4 @@
-package com.example.chthakur.playapp;
+package com.chthakur.playapp;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
