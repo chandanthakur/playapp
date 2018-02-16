@@ -1,10 +1,13 @@
 package com.chthakur.playapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.databinding.ObservableField;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -15,13 +18,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chthakur.playapp.Logger.ALog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func0;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -29,7 +43,7 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity);
-        //}
+        setUpAndShowToast();
     }
 
     @Override
@@ -42,6 +56,40 @@ public class TestActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         //tryDelete(this);
+    }
+
+
+    private int index = 0;
+    private void setUpAndShowToast() {
+        final List<Pair<String, Boolean>> memberList = new ArrayList<>();
+        for(int kk = 0; kk < 20; kk++) {
+            String title = "Chandan" + String.valueOf(kk);
+            memberList.add(new Pair(title, true));
+            memberList.add(new Pair(title, false));
+        }
+
+        final CallToastManager callToastManager = new CallToastManager(this);
+        rx.Observable.interval(5000, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+            @Override
+            public void call(Long aLong) {
+                if(memberList.size() <= index) {
+                    return;
+                }
+
+                ObservableField<String> contact = new ObservableField<String>();
+                contact.set("Contact");
+                ObservableField<String> contactTitle = new ObservableField<String>();
+                Pair<String, Boolean> pair = memberList.get(index);
+                contactTitle.set(pair.first);
+                callToastManager.showToast(pair.first, contact, contactTitle, pair.second);
+                index++;
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                ALog.e("TestActivity", "", throwable);
+            }
+        });
     }
 
     @Override
@@ -57,6 +105,46 @@ public class TestActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    static public class CallToastManagerV1 {
+        Context context;
+
+        Toast currentToast;
+
+        public  CallToastManagerV1(Context context) {
+            this.context = context;
+        }
+
+        public void showToast(int imageId, String text) {
+            if(currentToast != null) {
+                cancelToast(currentToast);
+            }
+
+            Toast toast = showToastImpl(imageId, text);
+            currentToast = toast;
+        }
+
+        public Toast showToastImpl(int imageId, String text) {
+            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+            View layout = inflater.inflate(R.layout.toast_layout, null);
+
+            ImageView image = (ImageView) layout.findViewById(R.id.image);
+            image.setImageResource(R.mipmap.ic_launcher);
+            TextView textView = (TextView) layout.findViewById(R.id.text);
+            textView.setText(text);
+            Toast toast = new Toast(context);
+            //toast.setGravity(Gravity.BOTTOM, -100, -100);
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(layout);
+            toast.show();
+            return toast;
+        }
+
+        private void cancelToast(final Toast toast) {
+            toast.cancel();
+        }
     }
 
     // stores and recycles views as they are scrolled off screen

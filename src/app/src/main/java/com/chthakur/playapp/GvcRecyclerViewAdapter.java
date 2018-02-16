@@ -1,31 +1,24 @@
 package com.chthakur.playapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
-public class GvcRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderBase> {
+public class GvcRecyclerViewAdapter extends RecyclerView.Adapter<CallGridViewHolderBase> {
 
-    private List<ViewHolderBase.ViewHolderBaseSchema> mData = new ArrayList<>();
+    private List<CallGridViewHolderSchema> mData = new ArrayList<>();
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
 
     // data is passed into the constructor
-    public GvcRecyclerViewAdapter(Context context, List<ViewHolderBase.ViewHolderBaseSchema> data) {
+    public GvcRecyclerViewAdapter(Context context, List<CallGridViewHolderSchema> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
@@ -34,24 +27,24 @@ public class GvcRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderBase>
     @Override
     public int getItemViewType(int position){
         // return type based on view in data
-        ViewHolderBase.ViewHolderBaseSchema holderData = (ViewHolderBase.ViewHolderBaseSchema)mData.get(position);
+        CallGridViewHolderSchema holderData = (CallGridViewHolderSchema)mData.get(position);
         int viewType = ViewHolderFactory.getViewType(holderData.getType());
         return viewType;
     }
 
     // inflates the cell layout from xml when needed
     @Override
-    public ViewHolderBase onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolderBase viewHolder = ViewHolderFactory.create(context, parent, viewType);
+    public CallGridViewHolderBase onCreateViewHolder(ViewGroup parent, int viewType) {
+        CallGridViewHolderBase viewHolder = ViewHolderFactory.create(context, parent, viewType);
         return viewHolder;
     }
 
     // binds the data to the textview in each cell
     @Override
-    public void onBindViewHolder(ViewHolderBase holder, int position) {
-        ViewHolderBase.ViewHolderBaseSchema dataSchema = mData.get(position);
+    public void onBindViewHolder(CallGridViewHolderBase holder, int position) {
+        CallGridViewHolderSchema dataSchema = mData.get(position);
         holder.setOnItemClickListener(this.mClickListener);
-        holder.bindViewHolder(dataSchema, mData.size());
+        holder.bindViewHolder(dataSchema);
     }
 
     // total number of cells
@@ -70,7 +63,7 @@ public class GvcRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderBase>
         return true;
     }
 
-    public boolean addAtIndex(int position, ViewHolderBase.ViewHolderBaseSchema schema) {
+    public boolean addAtIndex(int position, CallGridViewHolderSchema schema) {
         if(position < mData.size()) {
             mData.add(position, schema);
             //notifyItemInserted(position);
@@ -81,7 +74,7 @@ public class GvcRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderBase>
     }
 
     // convenience method for getting data at click position
-    public ViewHolderBase.ViewHolderBaseSchema getItem(int id) {
+    public CallGridViewHolderSchema getItem(int id) {
         return mData.get(id);
     }
 
@@ -103,26 +96,26 @@ public class GvcRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderBase>
 
         private static HashMap<String, Integer> mViewTypeMap = new HashMap<String, Integer>() {
             {
-                put(MainItemViewHolder.class.getSimpleName(), MainItemViewHolderViewType);
-                put(CallLocalMemberViewHolder.class.getSimpleName(), LocalCameraViewHolderViewType);
-                put(CallRemoteMemberViewHolder.class.getSimpleName(), RemoteCameraViewHolderViewType);
-                put(ThumbItemViewHolder.class.getSimpleName(), ThumbItemViewHolderViewType);
+                put(MainItemCallGridViewHolder.class.getSimpleName(), MainItemViewHolderViewType);
+                put(CallMemberLocalGridViewHolder.class.getSimpleName(), LocalCameraViewHolderViewType);
+                put(CallMemberRemoteGridViewHolder.class.getSimpleName(), RemoteCameraViewHolderViewType);
+                put(ThumbItemCallGridViewHolder.class.getSimpleName(), ThumbItemViewHolderViewType);
             }};
 
-        static public ViewHolderBase create(Context context, ViewGroup parent, int viewType) {
-            ViewHolderBase viewHolder = null;
+        static public CallGridViewHolderBase create(Context context, ViewGroup parent, int viewType) {
+            CallGridViewHolderBase viewHolder = null;
             switch (viewType) {
                 case MainItemViewHolderViewType:
-                    viewHolder = MainItemViewHolder.createViewHolder(context, parent);
+                    viewHolder = MainItemCallGridViewHolder.createViewHolder(context, parent);
                     break;
                 case ThumbItemViewHolderViewType:
-                    viewHolder = ThumbItemViewHolder.createViewHolder(context, parent);
+                    viewHolder = ThumbItemCallGridViewHolder.createViewHolder(context, parent);
                     break;
                 case LocalCameraViewHolderViewType:
-                    viewHolder = CallLocalMemberViewHolder.createViewHolder(context, parent);
+                    viewHolder = CallMemberLocalGridViewHolder.createViewHolder(context, parent);
                     break;
                 case RemoteCameraViewHolderViewType:
-                    viewHolder = CallRemoteMemberViewHolder.createViewHolder(context, parent);
+                    viewHolder = CallMemberRemoteGridViewHolder.createViewHolder(context, parent);
                     break;
             }
 

@@ -14,6 +14,8 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import rx.functions.Action1;
+
 public class ALog {
 
     public static final int VERBOSE = Log.VERBOSE;
@@ -60,9 +62,21 @@ public class ALog {
         }
     }
 
+    public static void v(String tag, String msg, Object... args) {
+        if (sHandler.isLoggable(VERBOSE)) {
+            sHandler.v(tag,formatString(msg, args));
+        }
+    }
+
     public static void v(String tag, String msg, Throwable tr) {
         if (sHandler.isLoggable(VERBOSE)) {
             sHandler.v(tag, msg, tr);
+        }
+    }
+
+    public static void v(String tag, Throwable tr, String msg, Object... args) {
+        if (sHandler.isLoggable(VERBOSE)) {
+            sHandler.v(tag,formatString(msg, args), tr);
         }
     }
 
@@ -72,9 +86,21 @@ public class ALog {
         }
     }
 
+    public static void d(String tag, String msg, Object... args) {
+        if (sHandler.isLoggable(DEBUG)) {
+            sHandler.d(tag,formatString(msg, args));
+        }
+    }
+
     public static void d(String tag, String msg, Throwable tr) {
         if (sHandler.isLoggable(DEBUG)) {
             sHandler.d(tag, msg, tr);
+        }
+    }
+
+    public static void d(String tag, Throwable tr, String msg, Object... args) {
+        if (sHandler.isLoggable(DEBUG)) {
+            sHandler.d(tag,formatString(msg, args), tr);
         }
     }
 
@@ -84,9 +110,21 @@ public class ALog {
         }
     }
 
+    public static void i(String tag, String msg, Object... args) {
+        if (sHandler.isLoggable(INFO)) {
+            sHandler.i(tag,formatString(msg, args));
+        }
+    }
+
     public static void i(String tag, String msg, Throwable tr) {
         if (sHandler.isLoggable(INFO)) {
             sHandler.i(tag, msg, tr);
+        }
+    }
+
+    public static void i(String tag, Throwable tr, String msg, Object... args) {
+        if (sHandler.isLoggable(INFO)) {
+            sHandler.i(tag,formatString(msg, args, tr));
         }
     }
 
@@ -96,9 +134,21 @@ public class ALog {
         }
     }
 
+    public static void w(String tag, String msg, Object... args) {
+        if (sHandler.isLoggable(WARN)) {
+            sHandler.w(tag,formatString(msg, args));
+        }
+    }
+
     public static void w(String tag, String msg, Throwable tr) {
         if (sHandler.isLoggable(WARN)) {
             sHandler.w(tag, msg, tr);
+        }
+    }
+
+    public static void w(String tag, Throwable tr, String msg, Object... args) {
+        if (sHandler.isLoggable(WARN)) {
+            sHandler.w(tag, formatString(msg, args), tr);
         }
     }
 
@@ -108,10 +158,35 @@ public class ALog {
         }
     }
 
+    public static void e(String tag, String msg, Object... args) {
+        if (sHandler.isLoggable(ERROR)) {
+            sHandler.e(tag, formatString(msg, args));
+        }
+    }
+
     public static void e(String tag, String msg, Throwable tr) {
         if (sHandler.isLoggable(ERROR)) {
             sHandler.e(tag, msg, tr);
         }
+    }
+
+    public static void e(String tag, Throwable tr, String msg, Object... args) {
+        if (sHandler.isLoggable(ERROR)) {
+            sHandler.e(tag, formatString(msg, args), tr);
+        }
+    }
+
+    public static Action1<Throwable> actionE(final String tag, final String msg) {
+        return new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                ALog.e(tag, msg, throwable);
+            }
+        };
+    }
+
+    private static String formatString(String str, Object... args) {
+        return String.format(null, str, args);
     }
 
     /**

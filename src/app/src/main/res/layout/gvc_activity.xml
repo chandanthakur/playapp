@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.chthakur.playapp.GvcGridViewV2
+    <com.chthakur.playapp.CallLayoutWrapper
         android:id="@+id/gvc_grid_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

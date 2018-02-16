@@ -5,9 +5,9 @@
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.chthakur.playapp.GvcGridCustomLayout
+    <com.chthakur.playapp.CallLayout
         android:id="@+id/gvc_custom_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.chthakur.playapp.GvcGridCustomLayout>
+    </com.chthakur.playapp.CallLayout>
 </FrameLayout>

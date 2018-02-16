@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GvcAbsoluteGridLayout
-        android:id="@+id/gvc_grid_wrap"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorRed">
-    </GvcAbsoluteGridLayout>
+    <FrameLayout
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:background="@drawable/shadow">
+    </FrameLayout>
 </FrameLayout>

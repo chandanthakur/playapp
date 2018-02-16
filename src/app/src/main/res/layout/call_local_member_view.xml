@@ -10,8 +10,8 @@
     android:layout_centerVertical="true">
     <FrameLayout
          android:id="@+id/local_camera_wrap"
-         android:layout_width="80dp"
-         android:layout_height="120dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
          android:layout_gravity="center"
          android:clickable="true"/>
 </FrameLayout>
